@@ -7,6 +7,7 @@ export const useMatterEngine = (
   const engineRef = useRef<Matter.Engine | null>(null);
   const renderRef = useRef<Matter.Render | null>(null);
   const runnerRef = useRef<Matter.Runner | null>(null);
+  const mouseConstraintRef = useRef<Matter.MouseConstraint | null>(null);
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
@@ -28,6 +29,9 @@ export const useMatterEngine = (
         background: 'transparent',
         wireframes: false, // Set to true for debugging physics
         showAngleIndicator: false,
+        showVelocity: false,
+        showCollisions: false,
+        showDebug: false,
       },
     });
 
@@ -89,6 +93,7 @@ export const useMatterEngine = (
       },
     });
 
+    mouseConstraintRef.current = mouseConstraint;
     Matter.World.add(world, mouseConstraint);
 
     // Keep the mouse in sync with rendering
@@ -167,5 +172,5 @@ export const useMatterEngine = (
      }
   }, []);
 
-  return { engineRef, isReady };
+  return { engineRef, isReady, mouseConstraintRef };
 };

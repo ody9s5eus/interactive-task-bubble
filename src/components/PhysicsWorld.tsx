@@ -16,7 +16,7 @@ const MAX_RADIUS = 80;
 export const PhysicsWorld = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const trashRef = useRef<HTMLDivElement>(null);
-  const { engineRef, isReady } = useMatterEngine(containerRef);
+  const { engineRef, isReady, mouseConstraintRef } = useMatterEngine(containerRef);
 
   const [tasks, setTasks] = useLocalStorage<Task[]>('bubbles-tasks', []);
   const [bubbleColors, setBubbleColors] = useLocalStorage<Record<string, string>>('bubbles-colors', {});
@@ -137,9 +137,7 @@ export const PhysicsWorld = () => {
     // Wait, `Matter.World.add(world, mouseConstraint)` adds it to the world.
     // Let's traverse constraints.
 
-    const constraints = Matter.Composite.allConstraints(engineRef.current.world);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const mouseC = constraints.find(c => c.label === "Mouse Constraint" || (c as any).mouse); // MouseConstraint has a 'mouse' property.
+    const mouseC = mouseConstraintRef.current;
 
     if (mouseC) {
       Matter.Events.on(mouseC, 'startdrag', () => {
@@ -231,9 +229,7 @@ export const PhysicsWorld = () => {
      let frameId: number;
 
      const checkHover = () => {
-       const constraints = Matter.Composite.allConstraints(engineRef.current!.world);
-       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-       const mouseC = constraints.find(c => (c as any).mouse) as unknown as Matter.MouseConstraint;
+       const mouseC = mouseConstraintRef.current;
 
        if (mouseC && mouseC.body) { // mouseC.body is set when dragging
           const { x, y } = mouseC.body.position;
@@ -280,7 +276,7 @@ export const PhysicsWorld = () => {
   };
 
   return (
-    <div className="w-full h-screen bg-gradient-to-br from-slate-50 to-slate-200 overflow-hidden relative touch-none">
+    <div className="w-full h-[100dvh] bg-gradient-to-br from-slate-50 to-slate-200 overflow-hidden relative touch-none">
       {/* Physics Container (Canvas Wrapper) */}
       <div
         ref={containerRef}
