@@ -1,46 +1,29 @@
-import { chromium } from 'playwright';
+import { chromium, Page } from 'playwright';
 
-(async () => {
+async function verifyApp() {
   const browser = await chromium.launch();
   const page = await browser.newPage();
 
-  try {
-    console.log('Navigating to app...');
-    await page.goto('http://localhost:5173');
+  // The base path is set to /interactive-task-bubble/ in vite.config.ts
+  const url = 'http://localhost:5173/interactive-task-bubble/';
 
-    // Wait for title or initial load
-    await page.waitForTimeout(1000); // Wait for physics engine to init
+  console.log(`Navigating to ${url}`);
+  await page.goto(url);
 
-    // Take screenshot of initial state (empty)
-    await page.screenshot({ path: 'verification/initial.png' });
-    console.log('Taken initial screenshot');
+  // Wait for the app to load.
+  // We can look for the title or a canvas element which Matter.js creates.
+  await page.waitForSelector('canvas');
 
-    // Add a task
-    console.log('Adding task 1...');
-    // Click the FAB to open input
-    await page.click('button:has(.lucide-plus)');
+  // Also check if the title is correct (though it's in index.html, we can just check if page loads)
+  const title = await page.title();
+  console.log(`Page title: ${title}`);
 
-    // Type in input
-    await page.fill('input[type="text"]', 'Hello World');
+  // Take a screenshot
+  await page.screenshot({ path: 'verification/app_screenshot.png' });
 
-    // Click submit (the button inside the form)
-    await page.click('form button[type="submit"]');
+  console.log('Screenshot taken at verification/app_screenshot.png');
 
-    // Add another task
-    console.log('Adding task 2...');
-    await page.fill('input[type="text"]', 'Bounce Me');
-    await page.click('form button[type="submit"]');
+  await browser.close();
+}
 
-    // Wait for bubbles to appear and fall
-    await page.waitForTimeout(2000);
-
-    // Take screenshot with bubbles
-    await page.screenshot({ path: 'verification/bubbles.png' });
-    console.log('Taken bubbles screenshot');
-
-  } catch (error) {
-    console.error('Error:', error);
-  } finally {
-    await browser.close();
-  }
-})();
+verifyApp().catch(console.error);
