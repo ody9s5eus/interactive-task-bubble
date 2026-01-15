@@ -1,73 +1,71 @@
-# React + TypeScript + Vite
+# Interactive Task Bubble 🫧✨
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Yo fam!** Welcome to the **Interactive Task Bubble** project! This ain't your grandma's to-do list—we're talkin' physics-based task bubbles that you can drag, bounce, and pop! It's giving *main character energy*. 💅
 
-Currently, two official plugins are available:
+Deployed live here (no cap):
+👉 **[https://ody9s5eus.github.io/interactive-task-bubble/](https://ody9s5eus.github.io/interactive-task-bubble/)** 👈
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## What's the Vibe? 🧐
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Imagine if your tasks were like... actual bubbles? And you could just YEET them across the screen? That's what we built. It's built with React, Matter.js (for the physics), and a whole lotta love.
 
-## Expanding the ESLint configuration
+**Key Features:**
+- **Physics-Based**: Drag 'em, drop 'em, watch 'em collide. It's oddly satisfying. 😌
+- **Pop to Complete**: Double-click a bubble to complete the task. *Pop!* Gone. 👋
+- **Aesthetic**: Glassmorphism vibes only. We keep it clean and blurry. 🌫️
+- **Responsive**: Works on your phone too, bestie. 📱
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## How to Run This Bad Boy 🚀
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+Wanna run this locally and tinker with the code? Say less.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 1. Clone the Repo
+First, grab the code:
+```bash
+git clone https://github.com/ody9s5eus/interactive-task-bubble.git
+cd interactive-task-bubble
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 2. Install Dependencies
+We use `pnpm` because we're cool like that.
+```bash
+pnpm install
 ```
+
+### 3. Start the Dev Server
+Let's get this party started! 🎉
+```bash
+pnpm run dev
+```
+Open up `http://localhost:5173` (or whatever port it tells you) and witness greatness.
+
+---
+
+## Tech Stack 🛠️
+
+- **React** (The GOAT library 🐐)
+- **TypeScript** (Because we like types, duh 🙄)
+- **Vite** (Fast AF ⚡)
+- **Matter.js** (Physics engine goes brrr 🏎️)
+- **Tailwind CSS** (Styling made easy ✨)
+- **Framer Motion** (Smooth animations 🌊)
+
+---
+
+## Contributing 🤝
+
+Found a bug? Wanna add a feature? Slide into the PRs! Don't be shy. Just make sure your code passes the vibe check (and linting).
+
+---
+
+## License 📜
+
+MIT License. Do whatever you want with it, just don't be sus. ඞ
+
+---
+
+**Made with 💖 by ody9s5eus**
