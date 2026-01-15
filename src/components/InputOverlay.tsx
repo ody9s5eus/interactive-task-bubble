@@ -30,7 +30,7 @@ export const InputOverlay = ({ onAddTask }: InputOverlayProps) => {
   };
 
   return (
-    <div className="absolute bottom-0 left-0 right-0 p-4 pointer-events-none z-50 flex flex-col justify-end items-center">
+    <div className="absolute bottom-0 left-0 right-0 p-4 pb-12 pointer-events-none z-50 flex flex-col justify-end items-center">
       <AnimatePresence>
         {isOpen && (
           <motion.form
@@ -38,7 +38,7 @@ export const InputOverlay = ({ onAddTask }: InputOverlayProps) => {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
             onSubmit={handleSubmit}
-            className="w-full max-w-md bg-white/80 backdrop-blur-md border border-white/20 rounded-2xl shadow-xl p-2 flex gap-2 pointer-events-auto mb-20"
+            className="w-full max-w-md bg-white/80 backdrop-blur-md border border-white/20 rounded-2xl shadow-xl p-2 flex gap-2 pointer-events-auto mb-24"
           >
             <input
               ref={inputRef}
