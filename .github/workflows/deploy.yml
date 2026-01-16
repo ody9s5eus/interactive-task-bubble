@@ -2,30 +2,21 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main] # Only deploy on push to main
-
-# Necessary permissions for GitHub Pages deployment
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-# Prevent concurrent deployments (avoids conflicts)
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+    branches: [main, master]
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 10
+        # The 'version' key is removed here so it defaults 
+        # to the version in your package.json
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -39,19 +30,7 @@ jobs:
       - name: Build
         run: pnpm run build
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          # This should point to your build output directory (usually 'dist')
-          path: './dist'
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          folder: dist
