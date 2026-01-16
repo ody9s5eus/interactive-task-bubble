@@ -187,16 +187,22 @@ export const PhysicsWorld = () => {
         const body = event.body;
         if (!body || !trashRef.current) return;
 
-        // Check if body is inside Trash Zone
+        // Check if body overlaps Trash Zone using Euclidean distance
         const trashRect = trashRef.current.getBoundingClientRect();
-        const { x, y } = body.position; // Position is relative to canvas
+        const trashCenterX = trashRect.left + trashRect.width / 2;
+        const trashCenterY = trashRect.top + trashRect.height / 2;
+        const { x, y } = body.position;
 
-        if (
-          x >= trashRect.left &&
-          x <= trashRect.right &&
-          y >= trashRect.top &&
-          y <= trashRect.bottom
-        ) {
+        // Calculate distance
+        const distance = Math.hypot(x - trashCenterX, y - trashCenterY);
+
+        // Threshold: Trash Radius + Body Radius (or fixed) + Buffer
+        // Assuming Trash is approx 64x64 (p-4 + size-32 icon approx 64px) -> radius 32
+        const trashRadius = trashRect.width / 2;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const bodyRadius = (body as any).circleRadius || 40; // Default if not found
+
+        if (distance < trashRadius + bodyRadius + 20) { // +20px forgiveness buffer
           // Pop it!
           handlePop(body.label); // body.label is task.id
         }
@@ -268,15 +274,18 @@ export const PhysicsWorld = () => {
      const checkHover = () => {
        const mouseC = mouseConstraintRef.current;
 
-       if (mouseC && mouseC.body) { // mouseC.body is set when dragging
+       if (mouseC && mouseC.body && trashRef.current) { // mouseC.body is set when dragging
           const { x, y } = mouseC.body.position;
-          const trashRect = trashRef.current!.getBoundingClientRect();
+          const trashRect = trashRef.current.getBoundingClientRect();
+          const trashCenterX = trashRect.left + trashRect.width / 2;
+          const trashCenterY = trashRect.top + trashRect.height / 2;
 
-          const isOver =
-            x >= trashRect.left &&
-            x <= trashRect.right &&
-            y >= trashRect.top &&
-            y <= trashRect.bottom;
+          const distance = Math.hypot(x - trashCenterX, y - trashCenterY);
+          const trashRadius = trashRect.width / 2;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const bodyRadius = (mouseC.body as any).circleRadius || 40;
+
+          const isOver = distance < trashRadius + bodyRadius + 20;
 
           setTrashHovered(isOver);
        } else {
