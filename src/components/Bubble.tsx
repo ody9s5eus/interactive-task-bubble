@@ -19,22 +19,23 @@ export const Bubble = forwardRef<HTMLDivElement, BubbleProps>(
         exit={{ scale: 0, opacity: 0 }}
         // pointer-events-none allows clicks to pass through to the canvas (Matter.MouseConstraint)
         className={clsx(
-          'absolute flex items-center justify-center text-center rounded-full shadow-lg select-none p-4 font-bold text-white leading-tight break-words pointer-events-none backdrop-blur-sm border border-white/20 overflow-hidden'
+          'absolute flex items-center justify-center text-center rounded-full shadow-lg select-none p-4 font-bold text-white leading-tight break-words pointer-events-none backdrop-blur-md border border-white/30 overflow-hidden'
         )}
         style={{
           width: r * 2,
           height: r * 2,
-          // We remove direct background color here to use the layer below or just use rgba if we had it.
-          // Using a separate div is cleaner for opacity control without affecting text.
         }}
       >
         {/* Background layer with opacity */}
         <div
-           className="absolute inset-0 rounded-full"
+           className="absolute inset-0 rounded-full bg-gradient-to-br from-white/40 to-transparent"
            style={{ backgroundColor: color, opacity: 0.8 }}
         />
 
-        <span className="pointer-events-none z-10 drop-shadow-md">
+        {/* Shine effect */}
+        <div className="absolute inset-0 rounded-full shadow-[inset_0_4px_20px_rgba(255,255,255,0.5)] pointer-events-none" />
+
+        <span className="pointer-events-none z-10 drop-shadow-md text-shadow-sm">
           {task.text}
         </span>
       </motion.div>

@@ -90,6 +90,26 @@ export const PhysicsWorld = () => {
     const loop = () => {
       bodiesRef.current.forEach((body, id) => {
         const domNode = domRefs.current.get(id);
+
+        // Safety Net: Ensure bodies don't fall off screen forever
+        const { innerHeight, innerWidth } = window;
+        if (body.position.y > innerHeight + 100) {
+            Matter.Body.setPosition(body, {
+                x: Math.min(Math.max(body.position.x, 50), innerWidth - 50),
+                y: innerHeight - 100
+            });
+            Matter.Body.setVelocity(body, { x: 0, y: -5 }); // Pop it up a bit
+        }
+
+        // Safety Net: Lateral Bounds
+         if (body.position.x < -100 || body.position.x > innerWidth + 100) {
+             Matter.Body.setPosition(body, {
+                 x: Math.min(Math.max(body.position.x, 50), innerWidth - 50),
+                 y: Math.min(body.position.y, innerHeight - 50)
+             });
+              Matter.Body.setVelocity(body, { x: 0, y: 0 });
+         }
+
         if (domNode) {
           const { x, y } = body.position;
           const angle = body.angle;
@@ -100,7 +120,7 @@ export const PhysicsWorld = () => {
           // Actually, Bubble is `absolute` positioned.
           // Let's assume the DOM node is the box. `left: x, top: y` centers it if we use `transform: translate(-50%, -50%)` in CSS.
 
-          domNode.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(${angle}rad) translate(-50%, -50%)`;
+          domNode.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%) rotate(${angle}rad)`;
 
           // Check for Trash Zone interaction during drag
           // We can check if the body is currently being held by MouseConstraint.
