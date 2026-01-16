@@ -11,7 +11,8 @@ export const TrashZone = forwardRef<HTMLDivElement, TrashZoneProps>(
     return (
       <div
         ref={ref}
-        className="absolute bottom-4 right-4 z-40 pointer-events-none"
+        className="absolute top-4 right-4 z-40 pointer-events-none"
+        style={{ marginTop: 'env(safe-area-inset-top)' }}
       >
         <motion.div
           animate={{

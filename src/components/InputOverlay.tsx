@@ -31,17 +31,30 @@ export const InputOverlay = ({ onAddTask }: InputOverlayProps) => {
 
   return (
     <div
-      className="absolute bottom-0 left-0 right-0 p-4 pb-32 pointer-events-none z-50 flex flex-col justify-end items-center"
-      style={{ paddingBottom: 'max(8rem, env(safe-area-inset-bottom))' }}
+      className="absolute top-0 left-0 right-0 p-4 pt-4 pointer-events-none z-50 flex flex-col justify-start items-center"
+      style={{ paddingTop: 'max(1rem, env(safe-area-inset-top))' }}
     >
+      <motion.button
+        layout
+        onClick={() => setIsOpen(!isOpen)}
+        className={clsx(
+          'pointer-events-auto shadow-2xl rounded-full p-4 text-white transition-colors z-50',
+          isOpen ? 'bg-red-500 hover:bg-red-600' : 'bg-black hover:bg-gray-800'
+        )}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+      >
+        {isOpen ? <X size={32} /> : <Plus size={32} />}
+      </motion.button>
+
       <AnimatePresence>
         {isOpen && (
           <motion.form
-            initial={{ y: 100, opacity: 0 }}
+            initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 100, opacity: 0 }}
+            exit={{ y: -100, opacity: 0 }}
             onSubmit={handleSubmit}
-            className="w-full max-w-md bg-white/80 backdrop-blur-md border border-white/20 rounded-2xl shadow-xl p-2 flex gap-2 pointer-events-auto mb-24"
+            className="w-full max-w-md bg-white/80 backdrop-blur-md border border-white/20 rounded-2xl shadow-xl p-2 flex gap-2 pointer-events-auto mt-4"
           >
             <input
               ref={inputRef}
@@ -61,19 +74,6 @@ export const InputOverlay = ({ onAddTask }: InputOverlayProps) => {
           </motion.form>
         )}
       </AnimatePresence>
-
-      <motion.button
-        layout
-        onClick={() => setIsOpen(!isOpen)}
-        className={clsx(
-          'pointer-events-auto shadow-2xl rounded-full p-4 text-white transition-colors',
-          isOpen ? 'bg-red-500 hover:bg-red-600' : 'bg-black hover:bg-gray-800'
-        )}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-      >
-        {isOpen ? <X size={32} /> : <Plus size={32} />}
-      </motion.button>
     </div>
   );
 };
