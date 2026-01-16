@@ -56,6 +56,7 @@ export const PhysicsWorld = () => {
           frictionAir: 0.01,
           density: BUBBLE_DENSITY,
           label: task.id, // Use label to identify body
+          render: { visible: false },
         });
 
         Matter.World.add(world, body);
@@ -119,6 +120,42 @@ export const PhysicsWorld = () => {
     loop();
 
     return () => cancelAnimationFrame(animationFrameId);
+  }, [isReady]);
+
+  // Handle Resize to keep bodies in bounds
+  useEffect(() => {
+    if (!isReady || !engineRef.current) return;
+
+    const handleResize = () => {
+      const { innerWidth } = window;
+      const bodies = Array.from(bodiesRef.current.values());
+
+      bodies.forEach((body) => {
+        let { x, y } = body.position;
+        let clamped = false;
+        // Simple clamp
+        if (x > innerWidth) {
+           x = innerWidth - 50;
+           clamped = true;
+        }
+        if (x < 0) {
+            x = 50;
+            clamped = true;
+        }
+        // y is harder because floor moves, but let's just ensure it's not super far down or up
+        // Floor handles y usually, but if screen shrinks significantly, body might be "under" floor?
+        // MatterJS walls update in useMatterEngine.
+        // We just care if it's off-screen laterally mostly.
+
+        if (clamped) {
+           Matter.Body.setPosition(body, { x, y });
+           Matter.Body.setVelocity(body, { x: 0, y: 0 }); // Kill velocity so it doesn't fly out again
+        }
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, [isReady]);
 
   // Trash Zone & Mouse Events Logic
