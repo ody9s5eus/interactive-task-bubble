@@ -30,7 +30,10 @@ export const InputOverlay = ({ onAddTask }: InputOverlayProps) => {
   };
 
   return (
-    <div className="absolute bottom-0 left-0 right-0 p-4 pb-12 pointer-events-none z-50 flex flex-col justify-end items-center">
+    <div
+      className="absolute bottom-0 left-0 right-0 p-4 pb-32 pointer-events-none z-50 flex flex-col justify-end items-center"
+      style={{ paddingBottom: 'max(8rem, env(safe-area-inset-bottom))' }}
+    >
       <AnimatePresence>
         {isOpen && (
           <motion.form

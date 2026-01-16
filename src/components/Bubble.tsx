@@ -19,7 +19,7 @@ export const Bubble = forwardRef<HTMLDivElement, BubbleProps>(
         exit={{ scale: 0, opacity: 0 }}
         // pointer-events-none allows clicks to pass through to the canvas (Matter.MouseConstraint)
         className={clsx(
-          'absolute flex items-center justify-center text-center rounded-full shadow-lg select-none p-4 font-bold text-white leading-tight break-words pointer-events-none backdrop-blur-sm border border-white/20'
+          'absolute flex items-center justify-center text-center rounded-full shadow-lg select-none p-4 font-bold text-white leading-tight break-words pointer-events-none backdrop-blur-sm border border-white/20 overflow-hidden'
         )}
         style={{
           width: r * 2,
