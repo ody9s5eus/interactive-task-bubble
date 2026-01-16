@@ -111,8 +111,9 @@ export const useMatterEngine = (
     const handleResize = () => {
       if (!containerRef.current || !renderRef.current) return;
 
-      const newWidth = containerRef.current.clientWidth;
-      const newHeight = containerRef.current.clientHeight;
+      // Use window inner dimensions as strict bounds to handle viewport changes (mobile URL bar etc)
+      const newWidth = window.innerWidth;
+      const newHeight = window.innerHeight;
 
       // Update canvas size
       renderRef.current.bounds.max.x = newWidth;
@@ -129,6 +130,8 @@ export const useMatterEngine = (
       const updateBody = (body: Matter.Body, x: number, y: number, w: number, h: number) => {
          Matter.Body.setVertices(body, Matter.Bodies.rectangle(x, y, w, h).vertices);
          Matter.Body.setPosition(body, { x, y });
+         // Reset velocity for static bodies just in case
+         Matter.Body.setVelocity(body, { x: 0, y: 0 });
       };
 
       updateBody(floor, newWidth / 2, newHeight + wallThickness / 2, newWidth, wallThickness);
