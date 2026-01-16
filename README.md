@@ -1,4 +1,4 @@
-# Interactive Task Bubble 🫧
+# 🫧 Interactive Task Bubble 🫧
 
 **Yo fam!** Welcome to the **Interactive Task Bubble** project! This ain't your grandma's to-do list—we're talkin' physics-based task bubbles that you can drag, bounce, and pop! It's giving *main character energy*. 💅
 
